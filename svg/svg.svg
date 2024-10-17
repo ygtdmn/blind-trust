@@ -1,0 +1,63 @@
+<svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="0.5" result="coloredBlur" />
+      <feMerge>
+        <feMergeNode in="coloredBlur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="100%" height="100%" fill="black" />
+
+  <g id="waves" filter="url(#glow)">
+    <path id="wave1" d="M0,50 Q25,25 50,50 T100,50" fill="none" stroke="white" stroke-width="0.25">
+      <animate id="anim1" attributeName="d" dur="7s" repeatCount="indefinite" values="M0,50 Q25,25 50,50 T100,50;
+                       M0,50 Q25,75 50,50 T100,50;
+                       M0,50 Q25,25 50,50 T100,50" calcMode="spline" keySplines="0.5 0 0.5 1; 0.5 0 0.5 1"
+        begin="indefinite" />
+    </path>
+    <path id="wave2" d="M0,50 Q25,75 50,50 T100,50" fill="none" stroke="white" stroke-width="0.25">
+      <animate id="anim2" attributeName="d" dur="5s" repeatCount="indefinite" values="M0,50 Q25,75 50,50 T100,50;
+                       M0,50 Q25,25 50,50 T100,50;
+                       M0,50 Q25,75 50,50 T100,50" calcMode="spline" keySplines="0.5 0 0.5 1; 0.5 0 0.5 1"
+        begin="indefinite" />
+    </path>
+    <path id="wave3" d="M0,50 Q25,62.5 50,50 T100,50" fill="none" stroke="white" stroke-width="0.25">
+      <animate id="anim3" attributeName="d" dur="9s" repeatCount="indefinite" values="M0,50 Q25,37.5 50,50 T100,50;
+                       M0,50 Q25,62.5 50,50 T100,50;
+                       M0,50 Q25,37.5 50,50 T100,50" calcMode="spline" keySplines="0.5 0 0.5 1; 0.5 0 0.5 1"
+        begin="indefinite" />
+    </path>
+  </g>
+
+  <script type="text/ecmascript">
+    <![CDATA[
+    function setApproved(approved) {
+      var waves = document.getElementById('waves');
+      var anims = document.querySelectorAll('#waves animate');
+      
+      if (approved) {
+        waves.setAttribute('transform', 'translate(0, 0) scale(1, 1)');
+        document.getElementById('wave1').setAttribute('stroke-width', '0.5');
+        document.getElementById('wave2').setAttribute('stroke-width', '0.5');
+        document.getElementById('wave3').setAttribute('stroke-width', '0.5');
+        anims.forEach(anim => {
+          anim.setAttribute('begin', '0s');
+          anim.setAttribute('dur', anim.getAttribute('dur').replace('s', '') * 2 + 's');
+        });
+      } else {
+        waves.setAttribute('transform', 'translate(0, 43.75) scale(1, 0.1)');
+        document.getElementById('wave1').setAttribute('stroke-width', '37.5');
+        document.getElementById('wave2').setAttribute('stroke-width', '37.5');
+        document.getElementById('wave3').setAttribute('stroke-width', '37.5');
+        anims.forEach(anim => anim.setAttribute('begin', 'indefinite'));
+      }
+    }
+
+    // Set to approved state immediately
+    setApproved(false);
+    ]]>
+  </script>
+</svg>
